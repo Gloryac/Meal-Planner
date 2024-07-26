@@ -2,4 +2,10 @@
 <resources>
 
     <style name="Theme.GJLunchbox" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="postSplashScreenTheme">@style/Theme.GJLunchbox</item>
+    </style>
 </resources>
