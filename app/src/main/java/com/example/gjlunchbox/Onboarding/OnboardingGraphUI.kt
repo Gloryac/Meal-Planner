@@ -1,6 +1,7 @@
 package com.example.gjlunchbox.Onboarding
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,12 +20,14 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun OnboardingGraphUI(onboardingModel: OnboardingModel){
-Column(modifier = Modifier.fillMaxWidth()){
-    Spacer(modifier = Modifier.size(50. dp))
+Column(modifier = Modifier.fillMaxWidth(),
+    horizontalAlignment = Alignment.CenterHorizontally,
+    verticalArrangement = Arrangement.Center) {
+
     Image(
         painter = painterResource(id = onboardingModel.image),
         contentDescription = null,
-        modifier = Modifier. fillMaxWidth().padding(50. dp, 0. dp),
+        modifier = Modifier. fillMaxWidth().padding(40. dp, 0. dp),
         alignment = Alignment.Center
     )
     Spacer(modifier = Modifier.size(50. dp))
@@ -36,7 +39,7 @@ Column(modifier = Modifier.fillMaxWidth()){
         style = MaterialTheme.typography.titleMedium,
         color= MaterialTheme.colorScheme.onBackground
     )
-    Spacer(modifier = Modifier.fillMaxWidth().size(10. dp))
+    Spacer(modifier = Modifier.fillMaxWidth().size(15. dp))
     Text(
         text=onboardingModel.description,
         modifier = Modifier.fillMaxWidth().padding(15.dp, 0.dp),
@@ -45,7 +48,7 @@ Column(modifier = Modifier.fillMaxWidth()){
         style = MaterialTheme.typography.titleSmall,
         color= MaterialTheme.colorScheme.onSurface
     )
-    Spacer(modifier = Modifier.fillMaxWidth().size(10. dp))
+    Spacer(modifier = Modifier.fillMaxWidth().size(60. dp))
 }
 }
 @Preview(showBackground = true)
