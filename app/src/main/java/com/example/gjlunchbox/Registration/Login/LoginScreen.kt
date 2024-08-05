@@ -43,10 +43,11 @@ val defaultPadding = 16.dp
 val itemSpacing = 8.dp
 
 @Composable
-fun LoginScreen(){
+fun LoginScreen(onLoginClick:()-> Unit, onSignUpClick: () -> Unit){
     val (email, setEmail) = rememberSaveable{ mutableStateOf("")}
     val (password, setPassword) = rememberSaveable{ mutableStateOf("")}
     val (checked, onChecked) = rememberSaveable{ mutableStateOf(false)}
+    val isFieldsEmpty = email.isNotEmpty() && password.isNotEmpty()
 
     Column(
         modifier = Modifier
@@ -93,11 +94,15 @@ fun LoginScreen(){
         
         Spacer(Modifier.height(itemSpacing))
         
-        Button(onClick = { /*TODO*/ }, modifier = Modifier.fillMaxWidth()) {
+        Button(
+            onClick = onLoginClick,
+            modifier = Modifier.fillMaxWidth(),
+            enabled = isFieldsEmpty
+        ) {
             Text("Login")
         }
        Spacer(Modifier.height(itemSpacing))
-        AlternativeLoginOption(onIconClick = {}, onSignUpClick = { /*TODO*/ }
+        AlternativeLoginOption(onIconClick = {}, onSignUpClick = onSignUpClick
             )
     }
 }
@@ -132,7 +137,7 @@ fun AlternativeLoginOption(
        ) {
            Text("Don't have an Account?")
            Spacer(Modifier.height(itemSpacing))
-           TextButton(onClick = {onSignUpClick}) {
+           TextButton(onClick = onSignUpClick) {
                Text("Sign Up")
            }
        }
@@ -144,6 +149,6 @@ fun AlternativeLoginOption(
 @Composable
 fun PrevLoginScreen(){
     GJLunchboxTheme {
-        LoginScreen()
+        LoginScreen({},{})
     }
 }
