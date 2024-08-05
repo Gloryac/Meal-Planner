@@ -23,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -32,6 +31,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.gjlunchbox.AuthManager
 import com.example.gjlunchbox.Registration.Components.HeaderText
 import com.example.gjlunchbox.Registration.Components.LoginTextField
 import com.example.gjlunchbox.Registration.Login.defaultPadding
@@ -50,8 +50,10 @@ fun SignUpScreen(
     val (confirmPassword, setConfirmPassword) = rememberSaveable{ mutableStateOf("") }
     val (agree, onAgree) = rememberSaveable{ mutableStateOf(false) }
     val context = LocalContext.current
-    var isPasswordSame by remember{ mutableStateOf(false)}
+    val isPasswordSame by remember{ mutableStateOf(false)}
     val isFieldsNotEmpty = name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && agree
+    //val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    val (message, setMessage) = remember { mutableStateOf("") }
 
     Column (
         modifier = Modifier
@@ -137,13 +139,23 @@ fun SignUpScreen(
         Spacer(Modifier.height(itemSpacing))
         Button(
             onClick ={
-            isPasswordSame = password != confirmPassword
-            if(!isPasswordSame){
-                onSignUpClick()}} ,
+                if (password == confirmPassword) {
+                    AuthManager.signUp(name, email, password) { result ->
+                        setMessage(result)
+                        if (result == "Sign Up Successful") {
+                            onSignUpClick()
+                        }
+                    }
+                } else {
+                    setMessage("Passwords do not match")
+                }
+            },
             modifier = Modifier.fillMaxWidth(),
             enabled = isFieldsNotEmpty) {
             Text("Sign Up")
         }
+        Spacer(Modifier.height(itemSpacing))
+        Text(text = message)
         Spacer(Modifier.height(itemSpacing))
         val signText = " Sign In"
         val signInAnnotation = buildAnnotatedString {

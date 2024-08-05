@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "758558513046",
+    "project_id": "gj-lunchbox",
+    "storage_bucket": "gj-lunchbox.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758558513046:android:0d9744056d0abab4ab6fb7",
+        "android_client_info": {
+          "package_name": "com.example.gjlunchbox"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCQBe6Rz4vabP-RkvAz93RGHSa31CVflo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,5 @@
 package com.example.gjlunchbox.Registration.Login
 
-import android.content.res.Resources.Theme
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
@@ -34,6 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.gjlunchbox.AuthManager
 import com.example.gjlunchbox.R
 import com.example.gjlunchbox.Registration.Components.HeaderText
 import com.example.gjlunchbox.Registration.Components.LoginTextField
@@ -47,6 +46,8 @@ fun LoginScreen(onLoginClick:()-> Unit, onSignUpClick: () -> Unit){
     val (email, setEmail) = rememberSaveable{ mutableStateOf("")}
     val (password, setPassword) = rememberSaveable{ mutableStateOf("")}
     val (checked, onChecked) = rememberSaveable{ mutableStateOf(false)}
+    val (message, setMessage) = remember { mutableStateOf("") }
+   // val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val isFieldsEmpty = email.isNotEmpty() && password.isNotEmpty()
 
     Column(
@@ -95,15 +96,24 @@ fun LoginScreen(onLoginClick:()-> Unit, onSignUpClick: () -> Unit){
         Spacer(Modifier.height(itemSpacing))
         
         Button(
-            onClick = onLoginClick,
+            //onClick = onLoginClick,
+            onClick = {
+                AuthManager.login(email, password) { result ->
+                    setMessage(result)
+                    if (result == "Sign In Successful") {
+                        onLoginClick()
+                    }
+                }
+            },
             modifier = Modifier.fillMaxWidth(),
             enabled = isFieldsEmpty
         ) {
             Text("Login")
         }
        Spacer(Modifier.height(itemSpacing))
-        AlternativeLoginOption(onIconClick = {}, onSignUpClick = onSignUpClick
-            )
+        AlternativeLoginOption(onIconClick = {}, onSignUpClick = onSignUpClick)
+        Spacer(Modifier.height(itemSpacing))
+        Text(text = message)
     }
 }
 @Composable

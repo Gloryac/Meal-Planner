@@ -1,6 +1,7 @@
 package com.example.gjlunchbox
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -25,9 +26,21 @@ sealed class Route {
 
 @Composable
 fun AppNavigation(navHostController: NavHostController) {
+    val currentUser = AuthManager.getCurrentUser()
+
+    LaunchedEffect(currentUser) {
+        if (currentUser != null) {
+            // Navigate to home if user is signed in
+            navHostController.navigate(Route.HomeScreen().name) {
+                popUpTo(navHostController.graph.findStartDestination().id) {
+                    inclusive = true
+                }
+            }
+        }
+    }
     NavHost(
         navController = navHostController,
-        startDestination = "login_flow",
+        startDestination = if (currentUser != null) Route.HomeScreen().name else "login_flow",
     ) {
         navigation(startDestination = Route.LoginScreen().name, route = "login_flow") {
             composable(route = Route.LoginScreen().name) {
